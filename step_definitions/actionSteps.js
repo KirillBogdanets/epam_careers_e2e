@@ -7,6 +7,7 @@ const EC = protractor.ExpectedConditions;
 let {Then, When, Given} = require('cucumber');
 const DEFAULT_STEP_TIMEOUT = 60 * 1000;
 const parser = require('./poParser');
+let MemoryObject = require('./memory/memory');
 
 Then(/^I wait (\d+) seconds$/, (number) => {
 	let seconds = parseFloat(number);
@@ -18,8 +19,19 @@ Then(/^I enter "([^"]*)" text into "([^"]*)" element$/, (givenText, element) => 
 });
 
 Then(/^I open "([^"]*)" url$/, (url) => {
-    return browser.get(url);
+    return url.includes("$") ?
+        browser.get(MemoryObject.getter(url.replace("$", ""))) :
+        browser.get(url);
 });
 
+When(/^I remember page url as "([^"]*)"$/, (rememberAs) => {
+    return browser.getCurrentUrl().then(url => MemoryObject.setter(rememberAs, url));
+});
 
-
+When(/^I add "([^"]*)" after "([^"]*)" into the remembered url "([^"]*)"$/, (addedValue, after, givenUrl) => {
+    let url = MemoryObject.getter(givenUrl.replace("$", ""));
+    let finalUrl = url.substr(0,url.indexOf(after) + after.length) + addedValue + url.substr(url.indexOf(after)+ after.length);
+    return url.includes(after) ?
+        MemoryObject.setter(givenUrl.replace("$", ""), finalUrl) :
+        new Error(`${url} in not contain ${after}`)
+});

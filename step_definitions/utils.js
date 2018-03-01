@@ -4,22 +4,8 @@ const expect = require('chai').expect;
 const world = require('../po/world');
 const EC = protractor.ExpectedConditions;
 const DEFAULT_STEP_TIMEOUT = 60 * 1000;
-let sizesArray = [];
+let MemoryObject = require('./memory/memory');
 const parser = require('./poParser');
-
-// const login = (userName, password) => {
-// 	return world.StartScreenHomePage.LoginButton.click().then(() => {
-// 		return browser.wait(EC.visibilityOf(world.LoginToVimeoPopup.WholePopup), DEFAULT_STEP_TIMEOUT);
-// 			}).then(() => {
-// 				return world.LoginToVimeoPopup.EmailInput.sendKeys(userName ? userName : consts["userEmail"]);
-// 		    }).then(() => {
-// 			    return world.LoginToVimeoPopup.PasswordInput.sendKeys(password ? password : consts["userPassword"]);
-// 		    }).then(() => {
-//                 return browser.wait(EC.elementToBeClickable(world.LoginToVimeoPopup.WholePopup), DEFAULT_STEP_TIMEOUT);
-// 	     	}).then(() => {
-// 		     	return world.LoginToVimeoPopup.LoginButton.click();
-// 		    });
-// };
 
 const inViewPortHelper = (coordinates, shouldNotBe) => {
     return browser.executeScript("return window.scrollY;").then((scrollTop) => {
@@ -42,29 +28,12 @@ const isInViewPort = (element, shouldNotBe) => {
     });
 };
 
-const sizeHelper = (firstValue, expected, secondValue) => {
-    sizesArray.map((value) => {
-        if (value.startsWith(`${firstValue}-`)) {
-            firstValue = value.split("-")[1];
-        } else if (value.startsWith(`${secondValue}-`)) {
-            secondValue = value.split("-")[1];
-        }
-    });
-
+const textHelper = (firstValue, expected, secondValue) => {
 	switch (expected) {
-		case "bigger then":
-            return expect(firstValue > secondValue).to.be.true;
-            break;
-		case "smaller then":
-            return expect(firstValue < secondValue).to.be.true;
-            break;
         case "different then":
-            console.log(firstValue, secondValue);
-            return expect(firstValue !== secondValue).to.be.true;
-            break;
+            return expect(MemoryObject.getter(firstValue).to.not.equal(MemoryObject.getter(secondValue), `${MemoryObject.getter(firstValue)} is equal to the ${MemoryObject.getter(secondValue)}`));
         case "equal to":
-            return expect(firstValue === secondValue).to.be.true;
-            break;
+            return expect(MemoryObject.getter(firstValue)).to.equal(MemoryObject.getter(secondValue), `${MemoryObject.getter(firstValue)} is not equal to the ${MemoryObject.getter(secondValue)}`);
 	}
 };
 
@@ -85,19 +54,22 @@ const scrollToTheElementHelper = (element) => {
 const isTextsEquals = (element, givenText, ignoringCase) => {
     if (ignoringCase){
         return parser.parser(element).getText().then((text) => {
-            return expect(text.toLowerCase()).to.equal(givenText.toLowerCase());
+            return givenText.includes("$") ?
+            expect(text.toLowerCase()).to.equal(MemoryObject.getter(givenText.replace("$", "")).toLowerCase()) :
+            expect(text).to.equal(givenText.toLowerCase());
         });
     } else {
         return parser.parser(element).getText().then((text) => {
-            return expect(text).to.equal(givenText);
+            return givenText.includes("$") ? 
+            expect(text.toLowerCase()).to.equal(MemoryObject.getter(givenText.replace("$", ""))) :
+            expect(text).to.equal(givenText);
         });
     }
 };
 
-const sizeRemember = (element, saveAs) => {
-    return parser.parser(element).getAttribute("style").then((value) => {
-        let opacityValue = value.slice(value.indexOf('opacity:'), value.indexOf(';'));
-        return sizesArray.push(`${saveAs}-${opacityValue.match(/\d+/g)}`);
+const textRememberer = (element, saveAs) => {
+    return parser.parser(element).getText().then((value) => {
+        MemoryObject.setter(saveAs, value);
     });
 };
 
@@ -109,12 +81,22 @@ const collectionTextWorker = (number, collection, givenText) => {
     });
 };
 
+const collectionComparingTextsWorker = (array, givenText, expected) => {
+    switch (expected) {
+        case "equal to":
+            return array.every(element => element === givenText);
+        case "contain":
+            return array.every(element => element.includes(givenText));
+    }
+};
+
 module.exports = {
 	isInViewPort,
-    sizeHelper,
+    textHelper,
     visibilityOf,
     scrollToTheElementHelper,
     isTextsEquals,
-    sizeRemember,
-    collectionTextWorker
+    textRememberer,
+    collectionTextWorker,
+    collectionComparingTextsWorker
 };

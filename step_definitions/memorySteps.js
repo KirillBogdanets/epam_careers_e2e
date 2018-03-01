@@ -8,10 +8,10 @@ let {Then, When, Given} = require('cucumber');
 const DEFAULT_STEP_TIMEOUT = 60 * 1000;
 const parser = require('./poParser');
 
-When(/I remember "([^"]*)" element size as "([^"]*)"$/, (element, saveAs) => {
-    return utils.sizeRemember(element, saveAs);
+When(/^I remember text of "([^"]*)" element as "([^"]*)"$/, (element, saveAs) => {
+    return utils.textRememberer(element, saveAs);
 });
 
-Then(/^Remembered value as "([^"]*)" should be (bigger then|smaller then|different then|equal to) "([^"]*)"$/, (firstValue, expected, secondValue) => {
-    return utils.sizeHelper(firstValue, expected, secondValue);
+Then(/^Remembered text as "([^"]*)" should be (different then|equal to) "([^"]*)"$/, (firstValue, expected, secondValue) => {
+    return utils.textHelper(firstValue, expected, secondValue);
 });

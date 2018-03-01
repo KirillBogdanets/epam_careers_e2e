@@ -21,13 +21,8 @@ Then(/^I click "([^"]*)" element with JS$/, (element) => {
 });
 
 Then(/^I click "([^"]*)" element$/, (element) => {
-
-    console.log(element.includes("#"));
-    if (element.includes("#")) {
-        console.log(element.match('\\d+')[0]);
-        console.log(element.substr(element.indexOf('of')+2));
-    }
-    // return element.includes("#") ? parser.parser(element).get(element.search('\\d+')).click() :
-    return parser.parser(element).click();
+    return browser.wait(EC.elementToBeClickable(parser.parser(element)), DEFAULT_STEP_TIMEOUT).then(() => {
+        return parser.parser(element).click();
+    });
 });
 
