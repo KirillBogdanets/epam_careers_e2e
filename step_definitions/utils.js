@@ -6,6 +6,7 @@ const EC = protractor.ExpectedConditions;
 const DEFAULT_STEP_TIMEOUT = 60 * 1000;
 let MemoryObject = require('./memory/memory');
 const parser = require('./poParser');
+const ECHelper = require('./EC/ecHelper');
 
 const inViewPortHelper = (coordinates, shouldNotBe) => {
     return browser.executeScript("return window.scrollY;").then((scrollTop) => {
@@ -38,11 +39,7 @@ const textHelper = (firstValue, expected, secondValue) => {
 };
 
 const visibilityOf = (element, shouldNotBe) => {
-    if (shouldNotBe) {
-        return browser.wait(EC.invisibilityOf(parser.parser(element)), 20000);
-    } else {
-        return browser.wait(EC.visibilityOf(parser.parser(element)), 20000);
-    }
+    return browser.wait(EC[ECHelper.visibility(shouldNotBe)](parser.parser(element)), 20000);
 };
 
 const scrollToTheElementHelper = (element) => {

@@ -30,7 +30,7 @@ Then(/^Text of #"([^"]*)" element of "([^"]*)" collection should be equal to "([
 });
 
 Then(/^I wait until "([^"]*)" element is visible$/, (element) => {
-    return browser.wait(EC.visibilityOf(parser.parser(element)), DEFAULT_STEP_TIMEOUT);
+    return utils.visibilityOf(element);
 });
 
 Then(/^Page URL should contain "([^"]*)"$/, (givenUrl) => {
