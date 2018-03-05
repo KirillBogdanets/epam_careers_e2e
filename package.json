@@ -4,10 +4,9 @@
   "description": "",
   "scripts": {
     "update": "webdriver-manager update",
-    "update-android": "webdriver-manager update --android-accept-licenses",
+    "update-android": "webdriver-manager update --android",
     "e2e": "protractor config.js --tag",
-    "pre-e2e": "start cmd /k webdriver-manager start --android",
-    "e2e-android": "webdriver-manager start --android",
+    "pre-e2e-android": "start cmd /k webdriver-manager start --android",
     "e2e-webdriver-start": "webdriver-manager start"
   },
   "dependencies": {

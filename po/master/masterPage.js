@@ -5,7 +5,8 @@ class MasterPage {
         this.Header = element(by.css('.header__wrapper'));
         this.HeaderLogo = element(by.css('.header__logo'));
 
-        this.SearchForm = element.all(by.css('.job-search__form')).first();
+        this.SearchForm = element.all(by.css('.job-search__form')).first();      //For browser master page
+        // this.SearchForm = element.all(by.css('.job-search__form')).last();          //For mobile
         this.SearchFormInput = this.SearchForm.$('.job-search__input');
 
         this.SearchFormLocation = this.SearchForm.$('.select-box-selection');

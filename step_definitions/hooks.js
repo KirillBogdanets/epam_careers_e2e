@@ -10,7 +10,7 @@ Before({tags: "@task"}, () => {
 });
 
 Before({tags: "@mobile"}, () => {
-    return browser.get("https://vimeo.com");
+    return browser.get("https://www.epam.com/careers");
 });
 
 After(function (testCase){

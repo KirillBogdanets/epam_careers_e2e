@@ -2,13 +2,13 @@ Feature: Careers Page
 
   Background:
     Given I wait until "CareersPage > Header" element is visible
-    Then I am on Careers page
-    And Page URL should contain "/careers"
+    Then Page URL should contain "/careers"
     And Page title should be equal "Careers"
 
   @career-page
   @task
   @ticket_01
+  @mobile
   Scenario: Verify that on Careers page I can see Logo in Header and Search Form with all fields
     Given "CareersPage > HeaderLogo" element should be visible
     When "CareersPage > SearchForm" element should be in viewport
@@ -23,6 +23,7 @@ Feature: Careers Page
   @career-page
   @task
   @ticket_02
+  @mobile
   Scenario Outline: Verify that on Careers page after clicking on Location Field on Search Form I can see dropdown
     Given "CareersPage > HeaderLogo" element should be visible
     Then "CareersPage > SearchFormLocation" element should be in viewport
@@ -54,9 +55,11 @@ Feature: Careers Page
   @career-page
   @task
   @ticket_03
+  @mobile
   Scenario Outline: Verify that on Careers page after clicking on Skills Field on Search Form I can see dropdown and check some primery skills
     Given "CareersPage > HeaderLogo" element should be visible
     Then "CareersPage > SearchFormSkills" element should be in viewport
+      And I scroll to the "CareersPage > SearchFormLocation" element
     When I click "CareersPage > SearchFormSkills" element
     Then "CareersPage > SearchFormSkillsDropdown" element should be visible
       And Skills dropdown should be expanded
