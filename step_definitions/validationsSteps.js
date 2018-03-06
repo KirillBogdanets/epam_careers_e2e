@@ -91,6 +91,5 @@ Then(/^Each element of "([^"]*)" collection should (be equal|contain) "([^"]*)" 
         return givenText.includes("$") ?
             expect(utils.collectionComparingTextsWorker(texts, MemoryObject.getter(givenText.replace("$", "")), expected), `Not every element from ${texts} collection ${expected} ${MemoryObject.getter(givenText.replace("$", ""))}`).to.be.true :
             expect(utils.collectionComparingTextsWorker(texts, givenText, expected), `Not every element from ${texts} collection ${expected} ${givenText}`).to.be.true;
-
     });
 });
