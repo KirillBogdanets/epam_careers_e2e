@@ -7,7 +7,7 @@
     "update-android": "webdriver-manager update --android",
     "e2e": "protractor config.js --tag",
     "pre-e2e-android": "start cmd /k webdriver-manager start --android",
-    "e2e-webdriver-start": "webdriver-manager start"
+    "e2e-webdriver-start": "start cmd /k webdriver-manager start"
   },
   "dependencies": {
     "chai": "^4.1.2",
