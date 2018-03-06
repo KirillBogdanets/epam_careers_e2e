@@ -4,14 +4,14 @@ const yargs = require("yargs").argv;
 const reporter = require('cucumber-html-reporter');
 
 exports.config = {
-    // seleniumAddress: 'http://localhost:4444/wd/hub',      //
+    seleniumAddress: 'http://localhost:4444/wd/hub',      //
                                                           //
     baseUrl: 'https://www.epam.com/careers',              //
     capabilities: {                                       //   You need to comment that if you want to run mobile e2e tests
         browserName: 'chrome',                            //
         version: "63.0.3239.132"                          //
     },                                                    //
-    directConnect: true,
+
     // seleniumAddress: 'http://localhost:4723/wd/hub',          //
     // baseUrl: 'http://localhost:8000',                         //
     // capabilities: {                                           //
