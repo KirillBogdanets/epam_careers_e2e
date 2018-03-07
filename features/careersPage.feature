@@ -59,7 +59,7 @@ Feature: Careers Page
   Scenario Outline: Verify that on Careers page after clicking on Skills Field on Search Form I can see dropdown and check some primery skills
     Given "CareersPage > HeaderLogo" element should be visible
     Then "CareersPage > SearchFormSkills" element should be in viewport
-      And I scroll to the "CareersPage > SearchFormLocation" element
+#      And I scroll to the "CareersPage > SearchFormLocation" element
     When I click "CareersPage > SearchFormSkills" element
     Then "CareersPage > SearchFormSkillsDropdown" element should be visible
       And Skills dropdown should be expanded

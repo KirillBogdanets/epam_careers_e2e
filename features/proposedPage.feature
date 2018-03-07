@@ -23,6 +23,7 @@ Feature: Proposed Page
     Then I wait until "ProposedJobsPage > HeaderLogo" element is visible
       And Page URL should contain "/job-listings"
       And Page title should be equal "Job Listings"
+      And I wait 2 seconds
       And "ProposedJobsPage > SearchMessage" element should be visible
       And Value of "ProposedJobsPage > SearchFormInput" element should be equal to "<Keyword>" ignoring case
     Then Text of "ProposedJobsPage > SearchFormLocation" element should be equal to "$First Value" ignoring case
